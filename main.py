@@ -13,9 +13,8 @@ class Client(commands.Bot):
     async def on_ready(self):
         print(f'Logged on as {self.user}!')
         try:
-            guild = discord.Object(id=1336386399854661642)
-            synced = await self.tree.sync(guild=guild)
-            print(f"Synced {len(synced)} commands to guild {guild.id}")
+            synced = await self.tree.sync()
+            print(f"Synced {len(synced)} commands globally")
         except Exception as e:
             print(f"Error syncing commands: {e}")
 
@@ -23,9 +22,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = Client(command_prefix="!", intents=intents)
 
-GUILD_ID = discord.Object(id=1336386399854661642)
-
-@client.tree.command(name="quote", description="Get a random quote from your kindle!", guild=GUILD_ID)
+@client.tree.command(name="quote", description="Get a random quote from your kindle!")
 async def send_quote(interaction: discord.Interaction):
 
     row = df.sample().iloc[0]
@@ -42,7 +39,7 @@ async def send_quote(interaction: discord.Interaction):
     if len(title) > 253:
         title = title[:250] + "..."
 
-    embed = discord.Embed(title=title, description=f"**{quote}**", color=0x00FF00)
+    embed = discord.Embed(title=title, description=quote, color=0x00FF00)
     await interaction.response.send_message(embed=embed)
 
 client.run(TOKEN)
