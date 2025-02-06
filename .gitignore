@@ -9,3 +9,7 @@ venv/
 
 # Ignore system files
 .DS_Store
+
+# Ignore Kindle My Clippings
+My Clippings.txt
+kindle_notes.csv
